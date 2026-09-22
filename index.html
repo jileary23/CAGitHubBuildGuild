@@ -547,7 +547,11 @@
       }
       function sortSessions() {
         const ordered = Array.from(grid.querySelectorAll(".session-card")).sort(
-          (a, b) => cardTime(a) - cardTime(b)
+          (a, b) => {
+            if (a.dataset.status === "suggest") return -1;
+            if (b.dataset.status === "suggest") return 1;
+            return cardTime(a) - cardTime(b);
+          }
         );
         ordered.forEach((card) => grid.appendChild(card));
         return ordered;
