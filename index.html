@@ -192,6 +192,8 @@
       .agenda-item { display: flex; gap: 14px; align-items: center; padding: 18px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
       .agenda-icon { display: grid; place-items: center; flex: 0 0 48px; height: 48px; border: 1px solid var(--cp-purple); border-radius: 10px; color: var(--cp-purple); font-size: 1.35rem; background: var(--cp-purple-soft); }
       .agenda-item strong { display: block; font-size: 1.05rem; } .agenda-item span { color: var(--cp-text-muted); font-size: 0.86rem; }
+      .agenda-item .agenda-action { display: inline-block; margin-top: 8px; color: var(--cp-blue); font-size: 0.8rem; font-weight: 800; }
+      .agenda-item .agenda-action:hover { color: var(--cp-blue-hover); }
       .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
       .filter { padding: 8px 12px; color: var(--cp-text-muted); font-size: 0.84rem; }
       .filter.active { border-color: var(--cp-blue); background: var(--cp-blue-soft); color: var(--cp-blue); font-weight: 800; }
@@ -328,7 +330,7 @@
             <p class="agenda-note">How the Guild works: a focused, interactive session designed for and by our community.</p>
             <div class="agenda-strip" aria-label="Monthly session format">
               <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">🎯</span><span><strong>Featured Topic + Demo</strong><span>30 minutes · learn from experts, see real use cases</span></span></div>
-              <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">🛠️</span><span><strong>Show Us What You Built</strong><span>15 minutes · community members share projects &amp; learnings</span></span></div>
+              <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">🛠️</span><span><strong>Show Us What You Built</strong><span>15 minutes · community members share projects &amp; learnings</span><a class="agenda-action" href="https://forms.cloud.microsoft/r/ZdjjPU6f3q" target="_blank" rel="noreferrer">Volunteer to present →</a></span></div>
               <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">💬</span><span><strong>Q&amp;A + Community Discussion</strong><span>15 minutes · ask questions, exchange ideas, build connections</span></span></div>
             </div>
             <div class="section-heading">
