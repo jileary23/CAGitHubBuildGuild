@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="CA Build Guild — a monthly community of practice for California state government teams building with GitHub Copilot."
+      content="CA GitHub Build Guild — a monthly community of practice for California state government teams building with GitHub Copilot."
     />
-    <title>CA Build Guild | GitHub Copilot</title>
+    <title>CA GitHub Build Guild</title>
     <link rel="icon" type="image/png" href="assets/github-mark.png" />
     <script>
       (() => {
@@ -152,8 +152,9 @@
       .hero { position: relative; display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr); align-items: center; gap: 48px; padding: 52px 0 80px; }
       .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--cp-purple); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
       .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--cp-purple); }
-      h1 { max-width: 700px; margin: 16px 0 18px; font-size: clamp(4.3rem, 10vw, 8.6rem); line-height: 0.82; letter-spacing: -0.09em; text-transform: uppercase; }
-      h1 span { display: block; background: linear-gradient(120deg, var(--cp-blue), var(--cp-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      h1 { max-width: 760px; margin: 16px 0 18px; font-size: clamp(3.5rem, 7.8vw, 7rem); line-height: 0.84; letter-spacing: -0.08em; text-transform: uppercase; }
+      h1 span { display: block; }
+      h1 .title-gradient { background: linear-gradient(120deg, var(--cp-blue), var(--cp-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
       .hero-copy { max-width: 550px; color: var(--cp-text-muted); font-size: 1.15rem; }
       .hero-copy strong { color: var(--cp-text); }
       .hero-tagline { margin: 4px 0 18px; color: var(--cp-blue); font-weight: 700; font-size: 1.02rem; }
@@ -239,11 +240,16 @@
 
       .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
       .team-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 26px 18px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
+      a.team-card { transition: transform 160ms ease, border-color 160ms ease; }
+      a.team-card:hover { transform: translateY(-3px); border-color: var(--cp-blue); }
+      a.team-card:focus-visible { outline: 3px solid var(--cp-blue); outline-offset: 3px; }
       .team-avatar { width: 92px; height: 92px; border-radius: 50%; border: 2px solid var(--cp-blue); overflow: hidden; background: var(--cp-blue-soft); }
       .team-avatar img { width: 100%; height: 100%; object-fit: cover; }
       .team-name { font-size: 1.05rem; font-weight: 800; }
       .team-title { color: var(--cp-text-muted); font-size: 0.85rem; }
       .team-company { display: flex; align-items: center; gap: 5px; color: var(--cp-text-soft); font-size: 0.72rem; }
+      .team-link { color: var(--cp-link); font-size: 0.78rem; font-weight: 700; }
+      .company-logo { width: 14px; height: 14px; object-fit: contain; }
 
       footer { padding: 28px 0; border-top: 1px solid var(--cp-border); color: var(--cp-text-muted); font-size: 0.85rem; }
       .footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; } .footer-inner strong { color: var(--cp-text); }
@@ -265,7 +271,7 @@
     <div class="page">
       <div class="topline">
         <div class="shell topline-inner">
-          <span><strong>CA Build Guild</strong> · Community of practice</span>
+          <span><strong>CA GitHub Build Guild</strong> · Community of practice</span>
           <span class="gold">California State Government · GitHub Copilot Community</span>
         </div>
       </div>
@@ -274,7 +280,7 @@
           <nav class="nav" aria-label="Primary navigation">
             <a class="brand" href="#top">
               <span class="brand-mark"><img src="assets/github-mark.png" alt="GitHub" /></span>
-              <span><small>GitHub Copilot</small>CA Build Guild</span>
+              <span><small>GitHub Copilot</small>CA GitHub Build Guild</span>
             </a>
             <div class="nav-actions">
               <a class="nav-link" href="#sessions">Sessions</a>
@@ -286,14 +292,14 @@
           <div class="hero">
             <div>
               <div class="eyebrow">Learn. Share. Build.</div>
-              <h1>Build<span>Guild</span></h1>
+              <h1><span>CA GitHub</span><span class="title-gradient">Build Guild</span></h1>
               <p class="hero-tagline">The future of building happens together.</p>
               <p class="hero-copy">A monthly community for <strong>California state government teams</strong> to learn, share, and build together with GitHub Copilot.</p>
               <div class="hero-actions">
                 <a class="primary-button" href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=v4j5cvGGr0GRqy180BHbR3Za_LnAtSROuoSMI2vWeuhUOTI1VjBUUDhaUUYxNEFMVDQ1NEFGTkFTVy4u&amp;origin=lprLink&amp;route=shorturl" target="_blank" rel="noreferrer">Register now →</a>
                 <a class="ghost-button" href="#sessions">Explore sessions</a>
               </div>
-              <div class="speaker-row" aria-label="CA Build Guild featured team">
+              <div class="speaker-row" aria-label="CA GitHub Build Guild featured team">
                 <div class="speaker">
                   <span class="speaker-avatar"><img src="assets/kenedy-thorne.png" alt="" /></span>
                   <span><span class="speaker-name">Kenedy Thorne</span><span class="speaker-title">Senior Solution Engineer</span><span class="speaker-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span></span>
@@ -417,7 +423,7 @@
             <div class="empty" id="empty-state">No sessions match that search. Try another topic or choose "All sessions."</div>
             <section class="notes-panel" id="september-16-notes" aria-labelledby="september-16-notes-heading">
               <h3 id="september-16-notes-heading">September 16 meeting notes</h3>
-              <p><strong>Meeting:</strong> State of CA GitHub Copilot Build Guild — Launch Session<br /><strong>Topic:</strong> GitHub Copilot Token Optimization: Getting More from Your AI Usage<br /><strong>Presenters:</strong> Aparna Jai (host), Jason Cook, Kenedy Thorne</p>
+              <p><strong>Meeting:</strong> State of CA GitHub Copilot Build Guild — Launch Session<br /><strong>Topic:</strong> GitHub Copilot Token Optimization: Getting More from Your AI Usage<br /><strong>Presenters:</strong> Aparna Jain (host), Jason Cook, Kenedy Thorne</p>
               <p class="disclaimer">Generated by AI from the meeting recording. Be sure to check for accuracy.</p>
               <h4>Build Guild community launch</h4>
               <p>Aparna launched the California State Government GitHub Copilot Build Guild, describing it as a statewide community with three goals: <strong>learn, share, and build together</strong> — an exchange of practical use cases, lessons learned, and challenges, rather than a one-way vendor presentation. Future sessions will be shaped by participant feedback via a topic poll.</p>
@@ -475,7 +481,7 @@
           <div class="shell">
             <div class="section-heading">
               <div><div class="eyebrow">Meet the guild</div><h2>Featured team</h2></div>
-              <p>The Microsoft team helping stand up and run the CA Build Guild.</p>
+              <p>The community team helping stand up and run the CA GitHub Build Guild.</p>
             </div>
             <div class="team-grid">
               <div class="team-card">
@@ -496,12 +502,33 @@
                 <span class="team-title">Principal Solution Engineer, Global Black Belt</span>
                 <span class="team-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span>
               </div>
+              <a class="team-card" href="https://www.linkedin.com/in/aparnajain25/" target="_blank" rel="noreferrer" aria-label="Connect with Aparna Jain on LinkedIn">
+                <span class="team-avatar"><img src="assets/Aparna.jpg" alt="Aparna Jain" /></span>
+                <span class="team-name">Aparna Jain</span>
+                <span class="team-title">Azure Director, State and Local Government</span>
+                <span class="team-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span>
+                <span class="team-link">Connect on LinkedIn →</span>
+              </a>
+              <a class="team-card" href="https://www.linkedin.com/in/brenham-jacobs-1507b448/" target="_blank" rel="noreferrer" aria-label="Connect with Brenham Jacobs on LinkedIn">
+                <span class="team-avatar"><img src="assets/Brenham.jpg" alt="Brenham Jacobs" /></span>
+                <span class="team-name">Brenham Jacobs</span>
+                <span class="team-title">Senior Enterprise Account Executive, State and Local Government</span>
+                <span class="team-company"><img class="company-logo" src="assets/github-mark.png" alt="" aria-hidden="true" />GitHub</span>
+                <span class="team-link">Connect on LinkedIn →</span>
+              </a>
+              <a class="team-card" href="https://www.linkedin.com/in/benkarabinus/" target="_blank" rel="noreferrer" aria-label="Connect with Benjamin Karabinus on LinkedIn">
+                <span class="team-avatar"><img src="assets/ben.jpg" alt="Benjamin Karabinus" /></span>
+                <span class="team-name">Benjamin Karabinus</span>
+                <span class="team-title">Information Technology Professional</span>
+                <span class="team-company">RSM US</span>
+                <span class="team-link">Connect on LinkedIn →</span>
+              </a>
             </div>
           </div>
         </section>
       </main>
       <footer>
-        <div class="shell footer-inner"><span><strong>CA Build Guild</strong> · GitHub Copilot community of practice</span><span class="footer-ca">California State Government · Better together. Stronger agents. Greater impact.</span></div>
+        <div class="shell footer-inner"><span><strong>CA GitHub Build Guild</strong> · GitHub Copilot community of practice</span><span class="footer-ca">California State Government · Better together. Stronger agents. Greater impact.</span></div>
       </footer>
     </div>
     <script>
