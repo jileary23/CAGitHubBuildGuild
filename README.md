@@ -1,8 +1,8 @@
-# CA Build Guild
+# CAGitHubBuildGuild
 
 A public, single-page site for the **California State Government GitHub Copilot Build Guild** — a monthly community of practice where CA state teams learn, share, and build with GitHub Copilot.
 
-Modeled after the [Ohio Build Guild](https://aka.ms/ohiobuildguild) site, and restyled to match the official **CA GitHub Build Guild Monthly Series** deck's dark, aurora-themed GitHub Copilot brand look.
+Restyled to match the official **CA GitHub Build Guild Monthly Series** deck's dark, aurora-themed GitHub Copilot brand look.
 
 🔗 Live: **aka.ms/CAGitHubBuildGuild** _(short URL redirect to be configured by the Microsoft short-link admin — see below)_
 
