@@ -152,13 +152,16 @@
       .hero { position: relative; display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr); align-items: center; gap: 48px; padding: 52px 0 80px; }
       .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--cp-purple); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
       .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--cp-purple); }
-      h1 { max-width: 760px; margin: 16px 0 18px; font-size: clamp(3.5rem, 7.8vw, 7rem); line-height: 0.84; letter-spacing: -0.08em; text-transform: uppercase; }
+      h1 { max-width: 760px; margin: 16px 0 18px; font-size: clamp(3.2rem, 6.4vw, 5.8rem); line-height: 0.88; letter-spacing: -0.075em; text-transform: uppercase; }
       h1 span { display: block; }
       h1 .title-gradient { background: linear-gradient(120deg, var(--cp-blue), var(--cp-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
       .hero-copy { max-width: 550px; color: var(--cp-text-muted); font-size: 1.15rem; }
       .hero-copy strong { color: var(--cp-text); }
       .hero-tagline { margin: 4px 0 18px; color: var(--cp-blue); font-weight: 700; font-size: 1.02rem; }
       .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+      .member-count { display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-left: 2px solid var(--cp-gold); }
+      .member-count strong { color: var(--cp-text); font-size: 1.45rem; line-height: 1; }
+      .member-count span { max-width: 62px; color: var(--cp-text-muted); font-size: 0.7rem; font-weight: 700; line-height: 1.15; text-transform: uppercase; letter-spacing: 0.06em; }
       .speaker-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 28px; }
       .speaker { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: center; gap: 9px; min-width: 150px; }
       .speaker-avatar {
@@ -174,7 +177,7 @@
       .hero-art { position: relative; min-height: 420px; display: grid; place-items: center; }
       .flyer-frame {
         width: min(100%, 390px); padding: 26px; text-align: center; border: 1px solid var(--cp-border-strong);
-        border-radius: 20px; background: var(--cp-surface); box-shadow: var(--cp-shadow); transform: rotate(2deg);
+        border-radius: 20px; background: var(--cp-surface); box-shadow: var(--cp-shadow);
         backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur);
       }
       .flyer-frame .mascot { display: block; width: 62%; margin: 0 auto 14px; filter: drop-shadow(0 18px 34px rgba(125, 211, 252, 0.35)); }
@@ -264,7 +267,7 @@
       }
       @media (max-width: 560px) {
         .shell { width: min(100% - 28px, 1160px); } .topline-inner, .nav, .section-heading, .footer-inner { align-items: flex-start; flex-direction: column; }
-        .nav { gap: 16px; } .nav-actions { width: 100%; justify-content: space-between; } h1 { font-size: clamp(3.8rem, 20vw, 6rem); }
+        .nav { gap: 16px; } .nav-actions { width: 100%; justify-content: space-between; } h1 { font-size: clamp(3rem, 15vw, 4rem); }
       }
     </style>
   </head>
@@ -293,12 +296,13 @@
           <div class="hero">
             <div>
               <div class="eyebrow">Learn. Share. Build.</div>
-              <h1><span>CA GitHub</span><span class="title-gradient">Build Guild</span></h1>
+              <h1><span>GitHub Copilot</span><span class="title-gradient">Build Guild</span></h1>
               <p class="hero-tagline">The future of building happens together.</p>
               <p class="hero-copy">A monthly community for <strong>California state government teams</strong> to learn, share, and build together with GitHub Copilot.</p>
               <div class="hero-actions">
                 <a class="primary-button" href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=v4j5cvGGr0GRqy180BHbR3Za_LnAtSROuoSMI2vWeuhUOTI1VjBUUDhaUUYxNEFMVDQ1NEFGTkFTVy4u&amp;origin=lprLink&amp;route=shorturl" target="_blank" rel="noreferrer">Register now →</a>
                 <a class="ghost-button" href="#sessions">Explore sessions</a>
+                <div class="member-count" aria-label="155 current members"><strong>155</strong><span>Current members</span></div>
               </div>
               <div class="speaker-row" aria-label="CA GitHub Build Guild featured team">
                 <div class="speaker">
