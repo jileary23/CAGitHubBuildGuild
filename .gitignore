@@ -1,0 +1,8 @@
+# Source decks (large binaries, not needed for the published site).
+# The Sept 16 session recap is already published as assets/agent-quality-token-optimization.pdf
+*.pptx
+*.PPTX
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db

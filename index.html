@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CA Build Guild — a monthly community of practice for California state government teams building with GitHub Copilot."
+    />
+    <title>CA Build Guild | GitHub Copilot</title>
+    <link rel="icon" type="image/png" href="assets/github-mark.png" />
+    <script>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const stored = localStorage.getItem("cp-theme");
+        const theme = params.get("scoutTheme") || stored || "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <style>
+      :root, html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #060b1f;
+        --cp-bg-solid: #0a1230;
+        --cp-surface: rgba(255, 255, 255, 0.055);
+        --cp-surface-soft: rgba(255, 255, 255, 0.035);
+        --cp-border: rgba(255, 255, 255, 0.14);
+        --cp-border-strong: rgba(255, 255, 255, 0.28);
+        --cp-text: #f4f6fb;
+        --cp-text-muted: #a9b2cc;
+        --cp-text-soft: #7e88a8;
+        --cp-blue: #7dd3fc;
+        --cp-blue-hover: #56c2f7;
+        --cp-purple: #ba9fef;
+        --cp-purple-soft: rgba(186, 159, 239, 0.18);
+        --cp-blue-soft: rgba(125, 211, 252, 0.14);
+        --cp-gold: #e8b84b;
+        --cp-accent: var(--cp-blue);
+        --cp-accent-fg: #061021;
+        --cp-link: var(--cp-blue);
+        --cp-shadow: 0 24px 60px rgba(3, 7, 22, 0.55);
+        --cp-blur: blur(16px);
+        --cp-guild: var(--cp-purple);
+        --cp-guild-soft: var(--cp-purple-soft);
+      }
+      html[data-theme="light"] {
+        color-scheme: light;
+        --cp-bg: #f5f7fb;
+        --cp-bg-solid: #ffffff;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f0f2f8;
+        --cp-border: #e1e4ef;
+        --cp-border-strong: #c5cadf;
+        --cp-text: #14172a;
+        --cp-text-muted: #4c5270;
+        --cp-text-soft: #6a7092;
+        --cp-blue: #0b6fae;
+        --cp-blue-hover: #095c8f;
+        --cp-purple: #7250c9;
+        --cp-purple-soft: rgba(114, 80, 201, 0.09);
+        --cp-blue-soft: rgba(11, 111, 174, 0.08);
+        --cp-gold: #b8860b;
+        --cp-accent: var(--cp-blue);
+        --cp-accent-fg: #ffffff;
+        --cp-link: var(--cp-blue);
+        --cp-shadow: 0 18px 44px rgba(15, 23, 42, 0.1);
+        --cp-blur: none;
+        --cp-guild: var(--cp-purple);
+        --cp-guild-soft: var(--cp-purple-soft);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--cp-bg);
+        color: var(--cp-text);
+        font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        position: relative;
+      }
+      html[data-theme="dark"] body {
+        background:
+          radial-gradient(1100px 720px at 12% -10%, rgba(186, 159, 239, 0.32), transparent 60%),
+          radial-gradient(1000px 680px at 90% 4%, rgba(125, 211, 252, 0.26), transparent 58%),
+          radial-gradient(900px 640px at 55% 105%, rgba(236, 110, 200, 0.16), transparent 62%),
+          var(--cp-bg);
+        background-attachment: fixed;
+      }
+      html[data-theme="dark"] body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.55;
+        background-image:
+          radial-gradient(1.4px 1.4px at 40px 60px, rgba(255, 255, 255, 0.55) 50%, transparent 52%),
+          radial-gradient(1px 1px at 150px 24px, rgba(255, 255, 255, 0.4) 50%, transparent 52%),
+          radial-gradient(1px 1px at 210px 150px, rgba(255, 255, 255, 0.32) 50%, transparent 52%),
+          radial-gradient(1.2px 1.2px at 90px 190px, rgba(255, 255, 255, 0.3) 50%, transparent 52%);
+        background-size: 260px 260px;
+      }
+      .page { position: relative; z-index: 1; }
+      a { color: inherit; text-decoration: none; }
+      button, input { font: inherit; }
+      button { cursor: pointer; }
+      .shell { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+      .topline {
+        border-bottom: 1px solid var(--cp-border);
+        border-top: 3px solid var(--cp-gold);
+        background: var(--cp-surface-soft);
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .topline-inner { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; }
+      .topline strong { color: var(--cp-blue); }
+      .topline .gold { color: var(--cp-gold); }
+
+      header {
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--cp-border);
+      }
+      .nav { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 24px 0; }
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.03em; }
+      .brand-mark {
+        display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px;
+        overflow: hidden; border: 1px solid var(--cp-border-strong);
+        box-shadow: 0 0 0 1px var(--cp-blue-soft) inset;
+      }
+      .brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .brand span { font-size: 1.05rem; }
+      .brand small { display: block; color: var(--cp-text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.64rem; }
+      .nav-actions { display: flex; align-items: center; gap: 10px; }
+      .nav-link { color: var(--cp-text-muted); font-size: 0.9rem; }
+      .nav-link:hover { color: var(--cp-blue); }
+      .icon-button, .primary-button, .ghost-button, .filter {
+        border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text);
+        transition: 160ms ease;
+      }
+      .icon-button { width: 38px; height: 38px; font-size: 1rem; }
+      .icon-button:hover, .ghost-button:hover, .filter:hover { border-color: var(--cp-blue); color: var(--cp-blue); }
+      .primary-button { border-color: var(--cp-blue); background: var(--cp-blue); color: var(--cp-accent-fg); font-weight: 700; padding: 11px 16px; }
+      .primary-button:hover { background: var(--cp-blue-hover); border-color: var(--cp-blue-hover); }
+      .ghost-button { padding: 10px 14px; font-weight: 700; }
+
+      .hero { position: relative; display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr); align-items: center; gap: 48px; padding: 52px 0 80px; }
+      .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--cp-purple); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+      .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--cp-purple); }
+      h1 { max-width: 700px; margin: 16px 0 18px; font-size: clamp(4.3rem, 10vw, 8.6rem); line-height: 0.82; letter-spacing: -0.09em; text-transform: uppercase; }
+      h1 span { display: block; background: linear-gradient(120deg, var(--cp-blue), var(--cp-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .hero-copy { max-width: 550px; color: var(--cp-text-muted); font-size: 1.15rem; }
+      .hero-copy strong { color: var(--cp-text); }
+      .hero-tagline { margin: 4px 0 18px; color: var(--cp-blue); font-weight: 700; font-size: 1.02rem; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+      .speaker-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 28px; }
+      .speaker { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: center; gap: 9px; min-width: 150px; }
+      .speaker-avatar {
+        display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--cp-blue);
+        border-radius: 50%; background: var(--cp-blue-soft); color: var(--cp-blue); font-size: 0.78rem; font-weight: 800; overflow: hidden;
+      }
+      .speaker-avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .speaker-name { display: block; color: var(--cp-text); font-size: 0.82rem; font-weight: 800; line-height: 1.15; }
+      .speaker-title { display: block; margin-top: 3px; color: var(--cp-text-muted); font-size: 0.68rem; line-height: 1.2; }
+      .speaker-company { display: flex; align-items: center; gap: 4px; margin-top: 4px; color: var(--cp-text-soft); font-size: 0.62rem; line-height: 1; }
+      .microsoft-mark { display: grid; grid-template-columns: repeat(2, 4px); gap: 1px; width: 9px; height: 9px; }
+      .microsoft-mark i { display: block; width: 4px; height: 4px; background: var(--cp-blue); }
+      .hero-art { position: relative; min-height: 420px; display: grid; place-items: center; }
+      .flyer-frame {
+        width: min(100%, 390px); padding: 26px; text-align: center; border: 1px solid var(--cp-border-strong);
+        border-radius: 20px; background: var(--cp-surface); box-shadow: var(--cp-shadow); transform: rotate(2deg);
+        backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur);
+      }
+      .flyer-frame .mascot { display: block; width: 62%; margin: 0 auto 14px; filter: drop-shadow(0 18px 34px rgba(125, 211, 252, 0.35)); }
+      .ca-badge {
+        display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+        background: rgba(232, 184, 75, 0.14); border: 1px solid var(--cp-gold); color: var(--cp-gold);
+        font-size: 0.78rem; font-weight: 800; letter-spacing: 0.03em;
+      }
+      .flyer-frame p { margin: 12px 0 0; color: var(--cp-text-muted); font-size: 0.85rem; }
+
+      .section { padding: 78px 0; }
+      .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+      .section-heading h2 { margin: 5px 0 0; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; letter-spacing: -0.06em; }
+      .section-heading p { max-width: 430px; margin: 0; color: var(--cp-text-muted); }
+
+      .value-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+      .value-card { padding: 22px 18px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
+      .value-icon { width: 36px; height: 36px; object-fit: contain; margin-bottom: 12px; }
+      .value-card strong { display: block; font-size: 1.02rem; margin-bottom: 6px; }
+      .value-card span { color: var(--cp-text-muted); font-size: 0.86rem; }
+
+      .agenda-note { max-width: 640px; margin: 0 0 20px; color: var(--cp-text-muted); }
+      .agenda-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 52px; }
+      .agenda-item { display: flex; gap: 14px; align-items: center; padding: 18px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
+      .agenda-icon { display: grid; place-items: center; flex: 0 0 48px; height: 48px; border: 1px solid var(--cp-purple); border-radius: 10px; color: var(--cp-purple); font-size: 1.35rem; background: var(--cp-purple-soft); }
+      .agenda-item strong { display: block; font-size: 1.05rem; } .agenda-item span { color: var(--cp-text-muted); font-size: 0.86rem; }
+      .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+      .filter { padding: 8px 12px; color: var(--cp-text-muted); font-size: 0.84rem; }
+      .filter.active { border-color: var(--cp-blue); background: var(--cp-blue-soft); color: var(--cp-blue); font-weight: 800; }
+      .search { width: min(100%, 280px); padding: 10px 13px; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); outline: none; }
+      .search:focus { border-color: var(--cp-blue); box-shadow: 0 0 0 3px var(--cp-blue-soft); }
+      .session-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+      .session-card { display: flex; flex-direction: column; min-height: 260px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); overflow: hidden; box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
+      .session-card[hidden] { display: none; }
+      .session-card[data-status="past"] { border-left: 4px solid var(--cp-blue); }
+      .session-card[data-status="upcoming"] { border-left: 4px solid var(--cp-purple); }
+      .session-card[data-status="suggest"] { border-left: 4px dashed var(--cp-gold); }
+      .session-top { display: flex; justify-content: space-between; align-items: start; padding: 18px 18px 12px; border-bottom: 1px solid var(--cp-border); }
+      .date-block { color: var(--cp-blue); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; }
+      .date-block b { display: block; margin-top: 2px; color: var(--cp-text); font-size: 1.5rem; letter-spacing: -0.05em; }
+      .tag { padding: 5px 8px; border-radius: 999px; background: var(--cp-purple-soft); color: var(--cp-purple); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; }
+      .tag.gold { background: rgba(232, 184, 75, 0.16); color: var(--cp-gold); }
+      .session-content { flex: 1; padding: 18px; } .session-content h3 { margin: 0 0 8px; font-size: 1.2rem; letter-spacing: -0.02em; }
+      .session-content p { margin: 0; color: var(--cp-text-muted); font-size: 0.88rem; }
+      .session-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-top: 1px solid var(--cp-border); color: var(--cp-text-muted); font-size: 0.82rem; flex-wrap: wrap; }
+      .session-footer a { color: var(--cp-blue); font-weight: 700; }
+      .empty { display: none; padding: 30px; border: 1px dashed var(--cp-border-strong); border-radius: 16px; color: var(--cp-text-muted); text-align: center; }
+      .empty.show { display: block; }
+      .notes-panel { margin-top: 24px; padding: 24px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
+      .notes-panel h3 { margin: 0 0 18px; font-size: 1.5rem; letter-spacing: -0.04em; }
+      .notes-panel h4 { margin: 20px 0 8px; color: var(--cp-blue); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; }
+      .notes-panel ul { margin: 0; padding-left: 22px; color: var(--cp-text-muted); }
+      .notes-panel li + li { margin-top: 10px; }
+      .notes-panel li ul { margin-top: 8px; }
+      .notes-panel strong { color: var(--cp-text); }
+      .disclaimer { margin: 0 0 16px; padding: 10px 14px; border: 1px dashed var(--cp-border-strong); border-radius: 10px; color: var(--cp-text-soft); font-size: 0.78rem; }
+
+      .callout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 22px; align-items: center; padding: 30px; border: 1px solid var(--cp-blue); border-radius: 16px; background: var(--cp-blue-soft); margin-bottom: 46px; }
+      .callout h2 { margin: 0 0 8px; font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1; letter-spacing: -0.06em; }
+      .callout p { margin: 0; color: var(--cp-text-muted); } .callout-action { justify-self: end; text-align: right; }
+      .callout-buttons { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+      .callout-action small { display: block; margin-top: 8px; color: var(--cp-text-muted); }
+
+      .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .team-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 26px 18px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
+      .team-avatar { width: 92px; height: 92px; border-radius: 50%; border: 2px solid var(--cp-blue); overflow: hidden; background: var(--cp-blue-soft); }
+      .team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .team-name { font-size: 1.05rem; font-weight: 800; }
+      .team-title { color: var(--cp-text-muted); font-size: 0.85rem; }
+      .team-company { display: flex; align-items: center; gap: 5px; color: var(--cp-text-soft); font-size: 0.72rem; }
+
+      footer { padding: 28px 0; border-top: 1px solid var(--cp-border); color: var(--cp-text-muted); font-size: 0.85rem; }
+      .footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; } .footer-inner strong { color: var(--cp-text); }
+      .footer-ca { color: var(--cp-gold); font-weight: 700; }
+      @media (max-width: 900px) {
+        .value-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 800px) {
+        .hero { grid-template-columns: 1fr; gap: 10px; padding-top: 30px; } .hero-art { min-height: 300px; max-width: 530px; width: 100%; margin: 0 auto; }
+        .agenda-strip, .team-grid { grid-template-columns: 1fr; } .value-grid { grid-template-columns: 1fr; } .callout { grid-template-columns: 1fr; } .callout-action { justify-self: start; text-align: left; } .callout-buttons { justify-content: flex-start; }
+      }
+      @media (max-width: 560px) {
+        .shell { width: min(100% - 28px, 1160px); } .topline-inner, .nav, .section-heading, .footer-inner { align-items: flex-start; flex-direction: column; }
+        .nav { gap: 16px; } .nav-actions { width: 100%; justify-content: space-between; } h1 { font-size: clamp(3.8rem, 20vw, 6rem); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="topline">
+        <div class="shell topline-inner">
+          <span><strong>CA Build Guild</strong> · Community of practice</span>
+          <span class="gold">California State Government · GitHub Copilot Community</span>
+        </div>
+      </div>
+      <header id="top">
+        <div class="shell">
+          <nav class="nav" aria-label="Primary navigation">
+            <a class="brand" href="#top">
+              <span class="brand-mark"><img src="assets/github-mark.png" alt="GitHub" /></span>
+              <span><small>GitHub Copilot</small>CA Build Guild</span>
+            </a>
+            <div class="nav-actions">
+              <a class="nav-link" href="#sessions">Sessions</a>
+              <a class="nav-link" href="#team">Team</a>
+              <a class="nav-link" href="#about">About</a>
+              <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button>
+            </div>
+          </nav>
+          <div class="hero">
+            <div>
+              <div class="eyebrow">Learn. Share. Build.</div>
+              <h1>Build<span>Guild</span></h1>
+              <p class="hero-tagline">The future of building happens together.</p>
+              <p class="hero-copy">A monthly community for <strong>California state government teams</strong> to learn, share, and build together with GitHub Copilot.</p>
+              <div class="hero-actions">
+                <a class="primary-button" href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=v4j5cvGGr0GRqy180BHbR3Za_LnAtSROuoSMI2vWeuhUOTI1VjBUUDhaUUYxNEFMVDQ1NEFGTkFTVy4u&amp;origin=lprLink&amp;route=shorturl" target="_blank" rel="noreferrer">Register now →</a>
+                <a class="ghost-button" href="#sessions">Explore sessions</a>
+              </div>
+              <div class="speaker-row" aria-label="CA Build Guild featured team">
+                <div class="speaker">
+                  <span class="speaker-avatar"><img src="assets/kenedy-thorne.png" alt="" /></span>
+                  <span><span class="speaker-name">Kenedy Thorne</span><span class="speaker-title">Senior Solution Engineer</span><span class="speaker-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span></span>
+                </div>
+                <div class="speaker">
+                  <span class="speaker-avatar"><img src="assets/jill-ranasinghe.jpg" alt="" /></span>
+                  <span><span class="speaker-name">Jill Ranasinghe</span><span class="speaker-title">Senior Solution Engineer</span><span class="speaker-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span></span>
+                </div>
+                <div class="speaker">
+                  <span class="speaker-avatar"><img src="assets/jason-cook.jpg" alt="" /></span>
+                  <span><span class="speaker-name">Jason Cook</span><span class="speaker-title">Principal Solution Engineer, Global Black Belt</span><span class="speaker-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-art" aria-label="GitHub Copilot Build Guild badge">
+              <div class="flyer-frame">
+                <img class="mascot" src="assets/copilot-mascot.png" alt="" loading="lazy" />
+                <span class="ca-badge">🐻 California State Government</span>
+                <p>Register once to get every upcoming invite.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section" id="about-guild">
+          <div class="shell">
+            <div class="section-heading">
+              <div><div class="eyebrow">Our Build Guild community</div><h2>Why teams join</h2></div>
+              <p>A collaborative space for California public sector teams to learn, share, and build with GitHub Copilot.</p>
+            </div>
+            <div class="value-grid">
+              <div class="value-card"><img class="value-icon" src="assets/icon-community.png" alt="" /><strong>Statewide Community</strong><span>Bringing together developers, technologists, and leaders across California state agencies.</span></div>
+              <div class="value-card"><img class="value-icon" src="assets/icon-impact.png" alt="" /><strong>Real-World Impact</strong><span>Practical solutions to accelerate our mission.</span></div>
+              <div class="value-card"><img class="value-icon" src="assets/icon-learning.png" alt="" /><strong>Peer Learning</strong><span>Share challenges, wins, and lessons learned.</span></div>
+              <div class="value-card"><img class="value-icon" src="assets/icon-support.png" alt="" /><strong>Microsoft &amp; GitHub Support</strong><span>Access the latest updates, resources, and expertise.</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="sessions">
+          <div class="shell">
+            <div class="callout" id="about">
+              <div><div class="eyebrow">Bring your questions</div><h2>Share your wins.<br />Listen. Learn. Level up.</h2><p>The Guild is for more than developers — Power Platform, data &amp; SQL, Python, notebooks, legacy modernization, PowerShell, infrastructure as code, QA, and testing all count. Bring a use case, a challenge, or a "how would you solve this?" moment.</p></div>
+              <div class="callout-action"><div class="callout-buttons"><a class="primary-button" href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=v4j5cvGGr0GRqy180BHbR3Za_LnAtSROuoSMI2vWeuhUOTI1VjBUUDhaUUYxNEFMVDQ1NEFGTkFTVy4u&amp;origin=lprLink&amp;route=shorturl" target="_blank" rel="noreferrer">Register ↗</a><a class="ghost-button" href="mailto:?subject=Join%20us%20at%20CA%20Build%20Guild&amp;body=Hi%2C%0D%0A%0D%0AI%27d%20love%20for%20you%20to%20join%20us%20at%20the%20CA%20Build%20Guild%2C%20a%20monthly%20community%20for%20California%20state%20government%20teams%20to%20learn%2C%20share%2C%20and%20build%20together%20with%20GitHub%20Copilot.%0D%0A%0D%0ARegister%20once%20to%20get%20every%20future%20invite%3A%0D%0Ahttps%3A%2F%2Faka.ms%2FCAGitHubBuildGuild%0D%0A%0D%0AHope%20you%20can%20join%20us%21">Invite a teammate</a></div><small>Everyone in California state government is welcome — devs, analysts, architects, and curious builders.</small></div>
+            </div>
+            <p class="agenda-note">How the Guild works: a focused, interactive session designed for and by our community.</p>
+            <div class="agenda-strip" aria-label="Monthly session format">
+              <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">🎯</span><span><strong>Featured Topic + Demo</strong><span>30 minutes · learn from experts, see real use cases</span></span></div>
+              <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">🛠️</span><span><strong>Show Us What You Built</strong><span>15 minutes · community members share projects &amp; learnings</span></span></div>
+              <div class="agenda-item"><span class="agenda-icon" aria-hidden="true">💬</span><span><strong>Q&amp;A + Community Discussion</strong><span>15 minutes · ask questions, exchange ideas, build connections</span></span></div>
+            </div>
+            <div class="section-heading">
+              <div><div class="eyebrow">The session series</div><h2>Sessions &amp; notes</h2></div>
+              <p>Catch up on past conversations and see what's coming up next in the series.</p>
+            </div>
+            <div class="filters" role="toolbar" aria-label="Filter sessions">
+              <button class="filter active" type="button" data-filter="all">All sessions</button>
+              <button class="filter" type="button" data-filter="past">Past</button>
+              <button class="filter" type="button" data-filter="upcoming">Upcoming</button>
+              <input class="search" id="session-search" type="search" placeholder="Search sessions…" aria-label="Search sessions" />
+            </div>
+            <div class="session-grid" id="session-grid">
+              <article class="session-card" data-status="past" data-date="2026-09-16T12:00" data-search="ca build guild launch token optimization quality cost agents jason cook kenedy jill aparna">
+                <div class="session-top"><div class="date-block">Sep 2026<b>16</b></div><span class="tag">Launch session</span></div>
+                <div class="session-content"><h3>Token Optimization: Getting More from Your AI Usage</h3><p>Our launch session — improving agent quality while reducing unnecessary token usage and cost.</p></div>
+                <div class="session-footer"><span>60 min · Notes</span><span><a href="#september-16-notes">Meeting notes ↘</a> · <a href="assets/agent-quality-token-optimization.pdf" download="Agent-Quality-and-Token-Optimization.pdf">Deck ⬇</a></span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2026-10-21T12:00" data-search="ca build guild october power platform upcoming">
+                <div class="session-top"><div class="date-block">Oct 2026<b>21</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>GitHub Copilot + Power Platform</h3><p>Bringing Copilot's agentic capabilities into low-code Power Platform workflows.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2026-11-18T12:00" data-search="ca build guild november modernizing legacy apps upcoming">
+                <div class="session-top"><div class="date-block">Nov 2026<b>18</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>Modernizing Legacy Apps with GitHub Copilot</h3><p>Practical approaches to understand, refactor, and modernize legacy codebases.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2026-12-16T12:00" data-search="ca build guild december data ai developers upcoming">
+                <div class="session-top"><div class="date-block">Dec 2026<b>16</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>GitHub Copilot for Data &amp; AI Developers</h3><p>Accelerating data pipelines, notebooks, and AI/ML workflows with Copilot.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2027-01-20T12:00" data-search="ca build guild january infrastructure as code upcoming">
+                <div class="session-top"><div class="date-block">Jan 2027<b>20</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>GitHub Copilot for Infrastructure as Code</h3><p>Using Copilot to author, review, and maintain Bicep, Terraform, and ARM templates.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2027-02-17T12:00" data-search="ca build guild february testing quality assurance upcoming">
+                <div class="session-top"><div class="date-block">Feb 2027<b>17</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>Testing with GitHub Copilot</h3><p>Generating unit tests, test plans, and closing coverage gaps with agentic help.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2027-03-17T12:00" data-search="ca build guild march secure development ghas security upcoming">
+                <div class="session-top"><div class="date-block">Mar 2027<b>17</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>Secure Development with GitHub Copilot + GHAS</h3><p>Pairing Copilot with GitHub Advanced Security for secure-by-default code.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2027-04-21T12:00" data-search="ca build guild april requirements to code upcoming">
+                <div class="session-top"><div class="date-block">Apr 2027<b>21</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>From Requirements to Code with GitHub Copilot</h3><p>Turning specs and user stories directly into working, reviewable code.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2027-05-19T12:00" data-search="ca build guild may java dotnet modernization upcoming">
+                <div class="session-top"><div class="date-block">May 2027<b>19</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>GitHub Copilot for Java &amp; .NET Modernization</h3><p>Upgrading frameworks, runtimes, and dependencies with agentic assistance.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="upcoming" data-date="2027-06-16T12:00" data-search="ca build guild june agentic development upcoming">
+                <div class="session-top"><div class="date-block">Jun 2027<b>16</b></div><span class="tag">Upcoming</span></div>
+                <div class="session-content"><h3>Agentic Development with GitHub Copilot</h3><p>Multi-step agents, custom instructions, and orchestration patterns in practice.</p></div>
+                <div class="session-footer"><span>60 min · Session</span><span>Register above</span></div>
+              </article>
+              <article class="session-card" data-status="suggest" data-date="2027-07-01T12:00" data-search="suggest topic idea future session vote poll">
+                <div class="session-top"><div class="date-block">Your idea<b>?</b></div><span class="tag gold">Suggest a topic</span></div>
+                <div class="session-content"><h3>What would YOU like us to cover?</h3><p>Share topic ideas, use cases, or challenges and help shape future Build Guild sessions.</p></div>
+                <div class="session-footer"><span>&nbsp;</span><a href="mailto:?subject=CA%20Build%20Guild%20topic%20idea">Suggest a topic ↗</a></div>
+              </article>
+            </div>
+            <div class="empty" id="empty-state">No sessions match that search. Try another topic or choose "All sessions."</div>
+            <section class="notes-panel" id="september-16-notes" aria-labelledby="september-16-notes-heading">
+              <h3 id="september-16-notes-heading">September 16 meeting notes</h3>
+              <p><strong>Meeting:</strong> State of CA GitHub Copilot Build Guild — Launch Session<br /><strong>Topic:</strong> GitHub Copilot Token Optimization: Getting More from Your AI Usage<br /><strong>Presenters:</strong> Aparna Jai (host), Jason Cook, Kenedy Thorne</p>
+              <p class="disclaimer">Generated by AI from the meeting recording. Be sure to check for accuracy.</p>
+              <h4>Build Guild community launch</h4>
+              <p>Aparna launched the California State Government GitHub Copilot Build Guild, describing it as a statewide community with three goals: <strong>learn, share, and build together</strong> — an exchange of practical use cases, lessons learned, and challenges, rather than a one-way vendor presentation. Future sessions will be shaped by participant feedback via a topic poll.</p>
+              <ul>
+                <li><strong>Monthly format:</strong> 30 minutes of featured topic &amp; demo, 15 minutes for a community member to show what they built, and 15 minutes for open Q&amp;A. Participants were encouraged to ask questions throughout rather than waiting for the final segment.</li>
+                <li><strong>Audience &amp; topics:</strong> The Guild is for more than application developers — planned subject areas include Power Platform, data &amp; database development, SQL, Python, notebooks, legacy application modernization, PowerShell, infrastructure as code, QA, and testing.</li>
+              </ul>
+              <h4>Token optimization principles</h4>
+              <p>Jason Cook explained that improving agent quality and reducing token cost are linked: choose models deliberately, provide only relevant context, split complex work into stages, and use deterministic controls to reduce rework.</p>
+              <ul>
+                <li><strong>Quality over counting:</strong> Focus on making every token count rather than simply minimizing token numbers — inaccurate or unclear intermediate results compound across multi-step workflows, so even high per-step accuracy can produce much lower end-to-end accuracy over many steps.</li>
+                <li><strong>Model selection:</strong> Match model capability to task complexity. Higher-reasoning models suit research, planning, architecture, and hard debugging; mid-tier models suit implementation; lighter models suit repetitive edits, documentation, and routine work. Use Auto model selection as a default while learning which models fit which tasks.</li>
+                <li><strong>Context management:</strong> Provide enough context to solve the task, but no more — narrow context to relevant files, modules, functions, or specs rather than sending an entire codebase.</li>
+                <li><strong>Session &amp; task boundaries:</strong> Start a new session after completing a feature or checkpoint, clear unrelated context, and break large work into smaller tasks instead of one extensive task list.</li>
+                <li><strong>Deterministic guardrails:</strong> Add unit tests, linters, architecture conventions, and security scans to agent workflows for consistent early feedback and fewer repeated reasoning/correction loops.</li>
+              </ul>
+              <h4>Prompting &amp; agent workflow design</h4>
+              <ul>
+                <li><strong>Prompt construction:</strong> Use concise descriptions, imperative goals, and known context — identify the relevant class or function, describe triggering conditions and observed behavior, and specify the intended outcome. Add stop conditions requiring Copilot to ask before taking an uncertain path.</li>
+                <li><strong>Staged execution:</strong> Separate complex work into research, planning, and implementation phases — a reasoning model investigates and plans, then a lower-cost coding model implements the specified changes.</li>
+                <li><strong>Agent configurations:</strong> Persistent instructions should contain only small, stable, non-negotiable rules (they're injected every turn); custom agents define task-specific personas; skills encode repeatable actions; MCP tools retrieve dynamic external context.</li>
+                <li><strong>Organization standards:</strong> Kenedy explained reusable agents can live at the org level for use across projects — keep org-wide instructions general (broad compliance) and project-specific testing rules/skills scoped to the relevant repo.</li>
+                <li><strong>Agent composition:</strong> Agents can call other agents, letting an orchestrator delegate testing, documentation, user stories, or commits — each with its own assigned model or model range.</li>
+                <li><strong>Learning from usage:</strong> An "agentic flywheel" — inspect incorrect or inefficient results, identify what guidance would have prevented the issue, and add that learning to instructions, specs, or skills for reuse.</li>
+              </ul>
+              <h4>Practical cost reduction techniques</h4>
+              <ul>
+                <li><strong>Scripts instead of AI:</strong> Use ordinary scripts for deterministic, repeatable data prep rather than spending tokens on tasks code can do directly.</li>
+                <li><strong>CLI versus MCP:</strong> Where a CLI or API can perform the same action, it may reduce static context and tool-call overhead compared to an MCP tool manifest.</li>
+                <li><strong>Concise outputs:</strong> Ask Copilot to return only what's needed (e.g., file names, not full paths/timestamps/permissions) — output tokens are often more expensive than input context.</li>
+                <li><strong>Usage analysis:</strong> Use Chronicle to review behavior across sessions and identify repeated instructions that should become persistent guidance; inspect context/usage in Copilot surfaces.</li>
+                <li><strong>Targeted specifications:</strong> For large projects, create per-module spec files documenting purpose, invariants, and dependencies so Copilot can read specs instead of loading the whole codebase.</li>
+              </ul>
+              <h4>Orchestration cost controls</h4>
+              <p>In response to a question about agent fleets, Kenedy and Jason explained that orchestration cost depends on task complexity, model choices, and the number of delegated agents. A practical pattern: use a stronger model to create a detailed plan and lighter models to execute subtasks, with a constrained (not indeterminate) number of agents. Auto model selection also provides a 10% discount on the model it chooses. Jason referenced a simple example — the "Ultra Light Orchestrator" — to be shared afterward.</p>
+              <h4>Context, memory &amp; data protection</h4>
+              <ul>
+                <li><strong>Compaction:</strong> Compaction reduces conversational history to the important information for later turns and doesn't itself explicitly cost tokens — but frequent compaction is a signal to split work, start new sessions, or introduce orchestration.</li>
+                <li><strong>Context ownership:</strong> Copilot manages the context window internally (behavior varies by model); users can manage it by clearing or starting a new session at a logical checkpoint. Session streaming is available in public preview via an enterprise admin setting.</li>
+                <li><strong>Documentation volume:</strong> Every word supplied to the model consumes tokens — normal code documentation is fine, but documentation that greatly exceeds the code it describes is likely excessive.</li>
+                <li><strong>Data handling:</strong> GitHub Copilot does not use prompts/data to train backend model providers and does not retain those records under applicable protections. For government use, use GitHub Copilot Business or Enterprise — the same guarantees do not apply to Free, Pro, Pro+, or Max plans.</li>
+              </ul>
+              <h4>What's next</h4>
+              <ul>
+                <li>Recording and slides shared with attendees (see links above).</li>
+                <li>A poll will go out to vote on topics for upcoming sessions.</li>
+                <li>Strong interest in a future session on GitHub Copilot <strong>agents</strong> — tools, models, and orchestration patterns.</li>
+                <li>Next monthly session: <strong>October 21, 2026</strong> — GitHub Copilot + Power Platform.</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="section" id="team">
+          <div class="shell">
+            <div class="section-heading">
+              <div><div class="eyebrow">Meet the guild</div><h2>Featured team</h2></div>
+              <p>The Microsoft team helping stand up and run the CA Build Guild.</p>
+            </div>
+            <div class="team-grid">
+              <div class="team-card">
+                <span class="team-avatar"><img src="assets/kenedy-thorne.png" alt="Kenedy Thorne" /></span>
+                <span class="team-name">Kenedy Thorne</span>
+                <span class="team-title">Senior Solution Engineer</span>
+                <span class="team-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span>
+              </div>
+              <div class="team-card">
+                <span class="team-avatar"><img src="assets/jill-ranasinghe.jpg" alt="Jill Ranasinghe" /></span>
+                <span class="team-name">Jill Ranasinghe</span>
+                <span class="team-title">Senior Solution Engineer</span>
+                <span class="team-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span>
+              </div>
+              <div class="team-card">
+                <span class="team-avatar"><img src="assets/jason-cook.jpg" alt="Jason Cook" /></span>
+                <span class="team-name">Jason Cook</span>
+                <span class="team-title">Principal Solution Engineer, Global Black Belt</span>
+                <span class="team-company"><span class="microsoft-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Microsoft</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <div class="shell footer-inner"><span><strong>CA Build Guild</strong> · GitHub Copilot community of practice</span><span class="footer-ca">California State Government · Better together. Stronger agents. Greater impact.</span></div>
+      </footer>
+    </div>
+    <script>
+      const filters = document.querySelectorAll(".filter");
+      const grid = document.querySelector("#session-grid");
+      const search = document.querySelector("#session-search");
+      const empty = document.querySelector("#empty-state");
+      let activeFilter = "all";
+      function cardTime(card) {
+        const value = Date.parse(card.dataset.date || "");
+        return Number.isNaN(value) ? -Infinity : value;
+      }
+      function sortSessions() {
+        const ordered = Array.from(grid.querySelectorAll(".session-card")).sort(
+          (a, b) => cardTime(b) - cardTime(a)
+        );
+        ordered.forEach((card) => grid.appendChild(card));
+        return ordered;
+      }
+      const cards = sortSessions();
+      function renderSessions() {
+        const term = search.value.trim().toLowerCase();
+        let visible = 0;
+        cards.forEach((card) => {
+          const matchesFilter = activeFilter === "all" || card.dataset.status === activeFilter;
+          const matchesSearch = !term || card.dataset.search.includes(term);
+          const show = matchesFilter && matchesSearch;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        empty.classList.toggle("show", visible === 0);
+      }
+      filters.forEach((filter) => filter.addEventListener("click", () => {
+        activeFilter = filter.dataset.filter;
+        filters.forEach((item) => item.classList.toggle("active", item === filter));
+        renderSessions();
+      }));
+      search.addEventListener("input", renderSessions);
+      document.querySelector("#theme-toggle").addEventListener("click", () => {
+        const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("cp-theme", next);
+      });
+    </script>
+  </body>
+</html>
