@@ -206,10 +206,6 @@
       .filter.active { border-color: var(--cp-blue); background: var(--cp-blue-soft); color: var(--cp-blue); font-weight: 800; }
       .search { width: min(100%, 280px); padding: 10px 13px; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); outline: none; }
       .search:focus { border-color: var(--cp-blue); box-shadow: 0 0 0 3px var(--cp-blue-soft); }
-      .session-group + .session-group { margin-top: 44px; }
-      .session-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 0 0 16px; }
-      .session-group-heading h3 { margin: 0; font-size: 1.5rem; letter-spacing: -0.04em; }
-      .session-group-heading span { color: var(--cp-text-muted); font-size: 0.84rem; }
       .session-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
       .session-card { display: flex; flex-direction: column; min-height: 260px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); overflow: hidden; box-shadow: var(--cp-shadow); backdrop-filter: var(--cp-blur); -webkit-backdrop-filter: var(--cp-blur); }
       .session-card[hidden] { display: none; }
@@ -362,15 +358,18 @@
               <div><div class="eyebrow">The session series</div><h2>Sessions &amp; notes</h2></div>
               <p>Catch up on past conversations and see what's coming up next in the series.</p>
             </div>
-            <div class="filters" role="search">
+            <div class="filters" role="toolbar" aria-label="Filter sessions">
+              <button class="filter active" type="button" data-filter="all">All sessions</button>
+              <button class="filter" type="button" data-filter="past">Past</button>
+              <button class="filter" type="button" data-filter="upcoming">Upcoming</button>
               <input class="search" id="session-search" type="search" placeholder="Search sessions…" aria-label="Search sessions" />
             </div>
-            <section class="session-group" id="upcoming-sessions" aria-labelledby="upcoming-sessions-heading">
-              <div class="session-group-heading">
-                <h3 id="upcoming-sessions-heading">Upcoming sessions</h3>
-                <span>Soonest to furthest away</span>
-              </div>
-              <div class="session-grid" id="upcoming-session-grid">
+            <div class="session-grid" id="session-grid">
+              <article class="session-card" data-status="past" data-date="2026-09-16T12:00" data-search="ca build guild launch token optimization quality cost agents jason cook kenedy jill aparna recording notes">
+                <div class="session-top"><div class="date-block">Sep 2026<b>16</b></div><span class="tag">Launch session</span></div>
+                <div class="session-content"><h3>Token Optimization: Getting More from Your AI Usage</h3><p>Our launch session — improving agent quality while reducing unnecessary token usage and cost.</p></div>
+                <div class="session-footer"><span class="session-link-pending" aria-label="Recording link coming soon">Watch recording</span><span><a href="#september-16-notes">Meeting notes ↘</a> · <a href="assets/agent-quality-token-optimization.pdf" download="Agent-Quality-and-Token-Optimization.pdf">Deck ⬇</a></span></div>
+              </article>
               <article class="session-card" data-status="upcoming" data-date="2026-10-21T12:00" data-search="ca build guild october power platform upcoming">
                 <div class="session-top"><div class="date-block">Oct 2026<b>21</b></div><span class="tag">Upcoming</span></div>
                 <div class="session-content"><h3>GitHub Copilot + Power Platform</h3><p>Bringing Copilot's agentic capabilities into low-code Power Platform workflows.</p></div>
@@ -421,22 +420,8 @@
                 <div class="session-content"><h3>What would YOU like us to cover?</h3><p>Share topic ideas, use cases, or challenges and help shape future Build Guild sessions.</p></div>
                 <div class="session-footer"><span>&nbsp;</span><a href="mailto:?subject=CA%20Build%20Guild%20topic%20idea">Suggest a topic ↗</a></div>
               </article>
-              </div>
-            </section>
-            <section class="session-group" id="past-sessions" aria-labelledby="past-sessions-heading">
-              <div class="session-group-heading">
-                <h3 id="past-sessions-heading">Past sessions</h3>
-                <span>Most recent to oldest</span>
-              </div>
-              <div class="session-grid" id="past-session-grid">
-                <article class="session-card" data-status="past" data-date="2026-09-16T12:00" data-search="ca build guild launch token optimization quality cost agents jason cook kenedy jill aparna recording notes">
-                  <div class="session-top"><div class="date-block">Sep 2026<b>16</b></div><span class="tag">Launch session</span></div>
-                  <div class="session-content"><h3>Token Optimization: Getting More from Your AI Usage</h3><p>Our launch session — improving agent quality while reducing unnecessary token usage and cost.</p></div>
-                  <div class="session-footer"><span class="session-link-pending" aria-label="Recording link coming soon">Watch recording</span><span><a href="#september-16-notes">Meeting notes ↘</a> · <a href="assets/agent-quality-token-optimization.pdf" download="Agent-Quality-and-Token-Optimization.pdf">Deck ⬇</a></span></div>
-                </article>
-              </div>
-            </section>
-            <div class="empty" id="empty-state">No sessions match that search. Try another topic.</div>
+            </div>
+            <div class="empty" id="empty-state">No sessions match that search. Try another topic or choose "All sessions."</div>
             <section class="notes-panel" id="september-16-notes" aria-labelledby="september-16-notes-heading">
               <h3 id="september-16-notes-heading">September 16 meeting notes</h3>
               <p><strong>Meeting:</strong> State of CA GitHub Copilot Build Guild — Launch Session<br /><strong>Topic:</strong> GitHub Copilot Token Optimization: Getting More from Your AI Usage<br /><strong>Presenters:</strong> Aparna Jain (host), Jason Cook, Kenedy Thorne</p>
@@ -551,36 +536,40 @@
       </footer>
     </div>
     <script>
-      const upcomingGrid = document.querySelector("#upcoming-session-grid");
-      const pastGrid = document.querySelector("#past-session-grid");
+      const filters = document.querySelectorAll(".filter");
+      const grid = document.querySelector("#session-grid");
       const search = document.querySelector("#session-search");
       const empty = document.querySelector("#empty-state");
+      let activeFilter = "all";
       function cardTime(card) {
         const value = Date.parse(card.dataset.date || "");
         return Number.isNaN(value) ? -Infinity : value;
       }
-      function sortSessions(grid, direction) {
+      function sortSessions() {
         const ordered = Array.from(grid.querySelectorAll(".session-card")).sort(
-          (a, b) => direction * (cardTime(a) - cardTime(b))
+          (a, b) => cardTime(a) - cardTime(b)
         );
         ordered.forEach((card) => grid.appendChild(card));
         return ordered;
       }
-      const upcomingCards = sortSessions(upcomingGrid, 1);
-      const pastCards = sortSessions(pastGrid, -1);
-      const cards = [...upcomingCards, ...pastCards];
+      const cards = sortSessions();
       function renderSessions() {
         const term = search.value.trim().toLowerCase();
         let visible = 0;
         cards.forEach((card) => {
+          const matchesFilter = activeFilter === "all" || card.dataset.status === activeFilter;
           const matchesSearch = !term || card.dataset.search.includes(term);
-          card.hidden = !matchesSearch;
-          if (matchesSearch) visible += 1;
+          const show = matchesFilter && matchesSearch;
+          card.hidden = !show;
+          if (show) visible += 1;
         });
-        document.querySelector("#upcoming-sessions").hidden = !upcomingCards.some((card) => !card.hidden);
-        document.querySelector("#past-sessions").hidden = !pastCards.some((card) => !card.hidden);
         empty.classList.toggle("show", visible === 0);
       }
+      filters.forEach((filter) => filter.addEventListener("click", () => {
+        activeFilter = filter.dataset.filter;
+        filters.forEach((item) => item.classList.toggle("active", item === filter));
+        renderSessions();
+      }));
       search.addEventListener("input", renderSessions);
       document.querySelector("#theme-toggle").addEventListener("click", () => {
         const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
