@@ -6,3 +6,7 @@
 # OS / editor cruft
 .DS_Store
 Thumbs.db
+
+# Local feed generation and deployment output.
+__pycache__/
+_site/

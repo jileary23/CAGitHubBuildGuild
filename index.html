@@ -136,7 +136,7 @@
       .brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .brand span { font-size: 1.05rem; }
       .brand small { display: block; color: var(--cp-text-muted); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.64rem; }
-      .nav-actions { display: flex; align-items: center; gap: 10px; }
+      .nav-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
       .nav-link { color: var(--cp-text-muted); font-size: 0.9rem; }
       .nav-link:hover { color: var(--cp-blue); }
       .icon-button, .primary-button, .ghost-button, .filter {
@@ -250,17 +250,30 @@
       .team-link { color: var(--cp-link); font-size: 0.78rem; font-weight: 700; }
       .company-logo { width: 14px; height: 14px; object-fit: contain; }
 
+      .community-updated { margin: 0 0 22px; color: var(--cp-text-muted); font-size: 0.82rem; }
+      .community-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .community-card { display: flex; flex-direction: column; padding: 22px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); }
+      .community-topics { display: flex; flex-wrap: wrap; gap: 6px; }
+      .community-card h3 { margin: 16px 0; font-size: 1.1rem; line-height: 1.4; overflow-wrap: anywhere; }
+      .community-card h3 a:hover { color: var(--cp-blue); text-decoration: underline; }
+      .community-card a:focus-visible, .community-sources a:focus-visible { outline: 3px solid var(--cp-blue); outline-offset: 4px; border-radius: 3px; }
+      .community-card p { margin: auto 0 0; color: var(--cp-text-muted); font-size: 0.82rem; }
+      .community-sources { margin: 24px 0 0; color: var(--cp-text-muted); font-size: 0.85rem; }
+      .community-sources a { color: var(--cp-link); text-decoration: underline; text-underline-offset: 3px; }
+
       footer { padding: 28px 0; border-top: 1px solid var(--cp-border); color: var(--cp-text-muted); font-size: 0.85rem; }
       .footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; } .footer-inner strong { color: var(--cp-text); }
       .footer-ca { color: var(--cp-gold); font-weight: 700; }
       @media (max-width: 900px) {
         .value-grid { grid-template-columns: repeat(2, 1fr); }
+        .community-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
       @media (max-width: 800px) {
         .hero { grid-template-columns: 1fr; gap: 10px; padding-top: 30px; } .hero-art { min-height: 300px; max-width: 530px; width: 100%; margin: 0 auto; }
         .agenda-strip, .team-grid { grid-template-columns: 1fr; } .value-grid { grid-template-columns: 1fr; } .callout { grid-template-columns: 1fr; } .callout-action { justify-self: start; text-align: left; } .callout-buttons { justify-content: flex-start; }
       }
       @media (max-width: 560px) {
+        .community-grid { grid-template-columns: 1fr; }
         .shell { width: min(100% - 28px, 1160px); } .topline-inner, .nav, .section-heading, .footer-inner { align-items: flex-start; flex-direction: column; }
         .nav { gap: 16px; } .nav-actions { width: 100%; justify-content: space-between; } h1 { font-size: clamp(3rem, 15vw, 4rem); }
       }
@@ -283,6 +296,7 @@
             </a>
             <div class="nav-actions">
               <a class="nav-link" href="#sessions">Sessions</a>
+              <a class="nav-link" href="#community">Dev community</a>
               <a class="nav-link" href="#team">Team</a>
               <a class="nav-link" href="#about">About</a>
               <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme">◐</button>
@@ -459,6 +473,51 @@
                 <li>Next monthly session: <strong>October 23, 2026, 11:00 AM–12:00 PM PT</strong> — Agentic Development with GitHub Copilot.</li>
               </ul>
             </section>
+          </div>
+        </section>
+
+        <section class="section" id="community" aria-labelledby="community-heading">
+          <div class="shell">
+            <div class="section-heading">
+              <div><div class="eyebrow">Beyond the guild</div><h2 id="community-heading">From the dev community</h2></div>
+              <p>Recent articles on GitHub Copilot, developer agents, VS Code, developer tooling, and Microsoft Foundry from official Microsoft and GitHub blogs.</p>
+            </div>
+            <!-- community-feed:start -->
+            <p class="community-updated">Feed refreshed: <time datetime="2026-10-27T19:51:55.806261+00:00">Oct 27, 2026 at 19:51 UTC</time>. Checked daily; articles are ordered by publication date.</p>
+            <div class="community-grid">
+              <article class="community-card">
+                <div class="community-topics"><span class="tag">Microsoft Foundry</span></div>
+                <h3><a href="https://devblogs.microsoft.com/foundry/announcing-azure-ai-speech-llm-09-2026" target="_blank" rel="noreferrer">Announcing Azure AI Speech LLM 09-2026: Broader locale support</a></h3>
+                <p>Microsoft Foundry Blog &middot; <time datetime="2026-10-26">Oct 26, 2026</time></p>
+              </article>
+              <article class="community-card">
+                <div class="community-topics"><span class="tag">GitHub Copilot</span> <span class="tag">VS Code</span></div>
+                <h3><a href="https://devblogs.microsoft.com/blog/postgresql-like-a-pro-vscode" target="_blank" rel="noreferrer">PostgreSQL Like A Pro: Build, query, and troubleshoot without leaving VS Code</a></h3>
+                <p>Microsoft for Developers &middot; <time datetime="2026-10-26">Oct 26, 2026</time></p>
+              </article>
+              <article class="community-card">
+                <div class="community-topics"><span class="tag">GitHub Copilot</span></div>
+                <h3><a href="https://github.blog/ai-and-ml/github-copilot/how-3-java-champions-are-using-github-copilot-for-increased-productivity" target="_blank" rel="noreferrer">How 3 Java Champions are using GitHub Copilot for increased productivity</a></h3>
+                <p>The GitHub Blog &middot; <time datetime="2026-10-20">Oct 20, 2026</time></p>
+              </article>
+              <article class="community-card">
+                <div class="community-topics"><span class="tag">GitHub Copilot</span> <span class="tag">VS Code</span></div>
+                <h3><a href="https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code" target="_blank" rel="noreferrer">How to continue a GitHub Copilot app session in VS Code</a></h3>
+                <p>The GitHub Blog &middot; <time datetime="2026-10-19">Oct 19, 2026</time></p>
+              </article>
+              <article class="community-card">
+                <div class="community-topics"><span class="tag">Microsoft Foundry</span></div>
+                <h3><a href="https://devblogs.microsoft.com/foundry/browser-automation-tool-ga" target="_blank" rel="noreferrer">Browser automation tool in Microsoft Foundry is now GA</a></h3>
+                <p>Microsoft Foundry Blog &middot; <time datetime="2026-10-19">Oct 19, 2026</time></p>
+              </article>
+              <article class="community-card">
+                <div class="community-topics"><span class="tag">Microsoft Foundry</span></div>
+                <h3><a href="https://devblogs.microsoft.com/foundry/whats-new-in-microsoft-foundry-september-2026" target="_blank" rel="noreferrer">What’s new in Microsoft Foundry | September 2026</a></h3>
+                <p>Microsoft Foundry Blog &middot; <time datetime="2026-10-16">Oct 16, 2026</time></p>
+              </article>
+            </div>
+            <!-- community-feed:end -->
+            <p class="community-sources">Sources: <a href="https://devblogs.microsoft.com/" target="_blank" rel="noreferrer">Microsoft for Developers</a>, <a href="https://github.blog/" target="_blank" rel="noreferrer">The GitHub Blog</a>, and <a href="https://devblogs.microsoft.com/foundry/" target="_blank" rel="noreferrer">Microsoft Foundry Blog</a>. Automatically selected by topic, not the Microsoft.Source newsletter's editorial selection. Prefer a curated email? <a href="https://info.microsoft.com/ww-landing-sign-up-for-the-microsoft-source-newsletter.html" target="_blank" rel="noreferrer">Subscribe to Microsoft.Source</a>.</p>
           </div>
         </section>
 
